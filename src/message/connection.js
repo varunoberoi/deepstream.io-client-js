@@ -65,6 +65,8 @@ Connection.prototype.authenticate = function( authParams, callback ) {
 	else if( this._deliberateClose === true && this._state === C.CONNECTION_STATE.CLOSED ) {
 		this._createEndpoint();
 		this._deliberateClose = false;
+		
+		var self = this;
 		this._client.once( C.EVENT.CONNECTION_STATE_CHANGED, function(){
 			return self.authenticate(authParams, callback)
 		});
