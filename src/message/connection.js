@@ -145,9 +145,12 @@ Connection.prototype.close = function() {
  * @private
  * @returns {void}
  */
-Connection.prototype._createEndpoint = function() {
-	if( utils.isNode() ) {
-		this._endpoint = new TcpConnection( this._url );
+Connection.prototype._createEndpoint = function() {	
+	if( utils.isNode()) {
+		if(!process.env.FORCE_ENGINE_IO)
+			this._endpoint = new TcpConnection( this._url );
+		else
+			this._endpoint = engineIoClient( this._url, this._options );
 	} else {
 		this._endpoint = engineIoClient( this._url, this._options );
 	}
